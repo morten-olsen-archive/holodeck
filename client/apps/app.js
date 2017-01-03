@@ -1,4 +1,5 @@
 const WindowManager = require('../ui/window/manager');
+const DesktopManager = require('../ui/desktop/manager');
 
 const fields = {
   worker: Symbol(),
@@ -12,6 +13,7 @@ class App {
     this[fields.worker] = worker;
     this[fields.namespaces] = {
       'ui.window': new WindowManager(worker),
+      'ui.desktop': new DesktopManager(worker),
     };
 
     worker.postMessage({

@@ -25,7 +25,8 @@ class Component {
       get('ui.window', {
         type: 'render',
         root: this.domKey,
-        tree: this._render(),
+        id: this.windowId,
+        tree: this._render(undefined, undefined, this.windowId),
       });
     }
   }
@@ -38,10 +39,11 @@ class Component {
     this.props = props;
   }
 
-  _render(parent, index) {
+  _render(parent, index, windowId) {
     const output = this.render();
     this[fields.type] = output.type;
     this[fields.props] = output.fields;
+    const className = output.className;
 
     if (output.children) {
       output.children.forEach((c, i) => {
@@ -56,6 +58,7 @@ class Component {
             this[fields.prevResponse][i].instance = new DOMNode(c.type, c.props);
           } else {
             this[fields.prevResponse][i].instance = new c.type(c.props);
+            this.windowId = windowId;
           }
         } else {
           this[fields.prevResponse][i].instance._setProps(c.props);
@@ -69,8 +72,9 @@ class Component {
     return {
       type: this[fields.type],
       key: this.domKey,
+      className: className,
       content: output.content,
-      children: this[fields.prevResponse].map(c => c.instance._render()),
+      children: this[fields.prevResponse].map((c, i) => c.instance._render(this, i, windowId)),
     }
   }
 }
@@ -78,7 +82,9 @@ class Component {
 addEventListener('message', ({data}) => {
   if (data.namespace === 'component.event') {
     const elm = domNodes[data.key];
-    elm._handleEvent(data.type, data.evt);
+    if (elm) {
+      elm._handleEvent(data.type, data.evt);
+    }
   }
 });
 

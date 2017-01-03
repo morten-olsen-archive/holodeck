@@ -5,8 +5,10 @@ const fields = {
 };
 
 class Window {
-  constructor(options) {
-    this[fields.options] = options;
+  constructor(id) {
+    this[fields.options] = {
+      id,
+    };
   }
 
   show = () => Promise.resolve()
@@ -21,7 +23,8 @@ class Window {
   render(body) {
     get('ui.window', {
       type: 'render',
-      tree: body._render(),
+      id: this[fields.options].id,
+      tree: body._render(undefined, undefined, this[fields.options].id),
     });
   }
 
@@ -29,12 +32,11 @@ class Window {
 }
 
 Window.create = () => Promise.resolve()
-  /*.then(() => Request.get({
-    namespace: 'ui.window',
+  .then(() => get('ui.window', {
     type: 'create',
-  }))*/
-  .then((response) => {
-    return new Window(response);
+  }))
+  .then((id) => {
+    return new Window(id);
   });
 
 export default Window;

@@ -1,24 +1,24 @@
+import React from 'libs/reactable';
 import Component from 'libs/ui/component/component';
+
+const style = `
+  .test {
+    background: red;
+  }
+
+  body {
+    background: green;
+  }
+`;
 
 class DemoComponent2 extends Component {
   render() {
-    return {
-      type: 'ul',
-      children: [{
-        type: 'li',
-        props: {
-          content: 'test 1 ' + this.props.name1,
-        },
-      },{
-        type: 'li',
-        props: {
-          content: 'test 2 ' + this.props.name2,
-          onclick: () => {
-            console.log('i wass clicked!')
-          }
-        },
-      }]
-    }
+    return (
+      <ul>
+        <li onclick={() => console.log(this.props.name1) }>{'test 1 ' + this.props.name1}</li>
+        <li>{'test 1 ' + this.props.name2}</li>
+      </ul>
+    );
   }
 }
 
@@ -39,22 +39,15 @@ class DemoComponent1 extends Component {
   }
 
   render() {
-    return {
-      type: 'div',
-      children: [{
-        type: DemoComponent2,
-        props: {
-          name1: 'hello 1',
-          name2: 'hello ' + this.state.i,
-        }
-      },{
-        type: DemoComponent2,
-        props: {
-          name1: 'hello 1',
-          name2: 'hello ' + this.state.i,
-        }
-      }]
-    }
+    return (
+      <div className="test">
+        <style>{style}</style>
+        <div>{'test' + this.state.i}</div>
+        <DemoComponent2 name1="hello 1" name2={this.state.i} />
+        <DemoComponent2 name1="hello 2" name2={this.state.i + 1} />
+        { this.state.i % 2 && <DemoComponent2 name1="hello 3" name2="hello 4" /> }
+      </div>
+    );
   }
 }
 
