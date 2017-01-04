@@ -1,3 +1,4 @@
+import React from 'libs/reactable';
 import Window from 'libs/ui/window';
 import Desktop from 'libs/ui/desktop';
 
@@ -16,4 +17,6 @@ ready.then(() => {
       window.render(new Demo())
     });
   });
+
+  Desktop.render(new Demo())
 });

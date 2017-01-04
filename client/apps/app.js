@@ -39,6 +39,7 @@ class App {
           seqId: data.seqId,
           status: 'failed',
         });
+        console.error(err);
       }
     } else {
       this[fields.worker].postMessage({

@@ -27,8 +27,6 @@ class Window {
       tree: body._render(undefined, undefined, this[fields.options].id),
     });
   }
-
-  body() {}
 }
 
 Window.create = () => Promise.resolve()

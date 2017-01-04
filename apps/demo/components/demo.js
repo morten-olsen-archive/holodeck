@@ -3,11 +3,7 @@ import Component from 'libs/ui/component/component';
 
 const style = `
   .test {
-    background: red;
-  }
-
-  body {
-    background: green;
+    padding: 15px;
   }
 `;
 
@@ -40,11 +36,12 @@ class DemoComponent1 extends Component {
 
   render() {
     return (
-      <div className="test">
+      <div class="test">
         <style>{style}</style>
-        <div>{'test' + this.state.i}</div>
+        <div hello="world">{'test' + this.state.i}</div>
         <DemoComponent2 name1="hello 1" name2={this.state.i} />
         <DemoComponent2 name1="hello 2" name2={this.state.i + 1} />
+        <img src="http://placeponi.es/300/300" />
         { this.state.i % 2 && <DemoComponent2 name1="hello 3" name2="hello 4" /> }
       </div>
     );

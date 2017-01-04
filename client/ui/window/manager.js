@@ -1,3 +1,4 @@
+require('./window.less');
 const uuid = require('uuid');
 const Window = require('./index');
 
@@ -18,7 +19,7 @@ class WindowManager {
   }
 
   render({ id, tree }) {
-    this.windows[id].render(tree);
+    this.windows[id].render(tree, true);
   }
 }
 

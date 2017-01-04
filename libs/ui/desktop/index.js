@@ -13,6 +13,13 @@ class Desktop {
     .then((id) => {
       return new Icon(id, action);
     });
+
+  render(body) {
+    get('ui.desktop', {
+      type: 'render',
+      tree: body._render(undefined, undefined, 'desktop'),
+    });
+  }
 }
 
 export default new Desktop();

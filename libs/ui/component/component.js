@@ -22,12 +22,20 @@ class Component {
   setState(newState) {
     this.state = Object.assign({}, this.state, newState);
     if (!this.shouldComponentUpdate || this.shouldComponentUpdate()) {
-      get('ui.window', {
-        type: 'render',
-        root: this.domKey,
-        id: this.windowId,
-        tree: this._render(undefined, undefined, this.windowId),
-      });
+      if (this.windowId === 'desktop') {
+        get('ui.desktop', {
+          type: 'render',
+          root: this.domKey,
+          tree: this._render(undefined, undefined, 'desktop'),
+        });
+      } else {
+        get('ui.window', {
+          type: 'render',
+          root: this.domKey,
+          id: this.windowId,
+          tree: this._render(undefined, undefined, this.windowId),
+        });
+      }
     }
   }
 
@@ -73,6 +81,7 @@ class Component {
       type: this[fields.type],
       key: this.domKey,
       className: className,
+      props: output.props,
       content: output.content,
       children: this[fields.prevResponse].map((c, i) => c.instance._render(this, i, windowId)),
     }
@@ -102,9 +111,12 @@ class DOMNode extends Component {
   }
 
   render() {
+    const { content, ...props } = this.props;
+    if(this)
     return {
       type: this[fields.type],
-      content: this.props.content,
+      content,
+      props: JSON.parse(JSON.stringify(props)),
     };
   }
 }
